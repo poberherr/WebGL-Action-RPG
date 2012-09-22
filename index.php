@@ -15,16 +15,18 @@ $jsDir="js/";
  **/
 
 $extJS=array(
-		'jquery-1.8.2.min',
-		'tquery-bundle',
+		'jquery',
+		'tquery-bundle-require',
 		'THREEx.KeyboardState',
-		'ColladaLoader'
+		'ColladaLoader',
 	);
+
 $intJS= array(
 		'key',
 		'cam',
-		'main'
-	);
+		'main',
+);
+
 
 /**
  *  Dont touch stuff below this line :) pretty please 
@@ -49,6 +51,7 @@ foreach ($intJS as $jsFileName)
 	$html .= '<script ';
 	$html .= 'src="';
 	$html .= $jsDir.$jsFileName.".js";
+	//$html .= "all.js";
 	$html .= '"';
 	$html .= ' ></script>'."\n";
 }
