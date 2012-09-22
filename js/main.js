@@ -56,9 +56,9 @@ $(document).ready(function(){
 
 	tQuery.register('createPlanet', function(opts){
 	
-		var baseUrl	= tQuery.createPlanet.baseUrl;
+		//var baseUrl	= tQuery.createPlanet.baseUrl;
 		//var url		= baseUrl + 'images/moon_1024.jpg';
-		var url		= baseUrl + 'images/world.png';
+		var url		= 'img/world.png';
 		var object	= tQuery.createSphere();
 		object.material(new THREE.MeshLambertMaterial({
 			ambient	: 0x888888,
@@ -70,7 +70,7 @@ $(document).ready(function(){
 
 
 	// configure module baseUrl
-	tQuery.createPlanet.baseUrl	= "../";
+	//tQuery.createPlanet.baseUrl	= "../";
 
 	// create the planet
 	//var eath = tQuery.createPlanet().addTo(world);
