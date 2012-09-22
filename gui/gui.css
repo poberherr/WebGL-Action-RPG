@@ -1,0 +1,38 @@
+
+/*
+	CSS File to design stuffi 
+*/
+
+/*
+	TODO: Use less here for dynamic stuff and variables ! BUM!
+*/
+
+
+
+
+
+
+/* General needed Stuff */
+
+div.half_transparent {
+	background-color: #2ECCFA;
+	border-style:solid;
+	border-color: #2E64FE;
+	-khtml-opacity:.50; 
+	-moz-opacity:.50; 
+	-ms-filter:”alpha(opacity=50)”;
+	filter:alpha(opacity=50);
+	filter: progid:DXImageTransform.Microsoft.Alpha(opacity=0.5);
+	opacity:.50; 
+}
+
+div.round_corners {
+	border-radius: 10px;
+}
+
+div.size_big {
+	height: 30px;
+	width: 80px;
+	margin: 10px 5px;
+	float: left;
+}
