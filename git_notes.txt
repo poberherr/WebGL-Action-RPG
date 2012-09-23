@@ -1,0 +1,11 @@
+
+git pull 			   // get latest stuff rom master branche
+git status 			   // check file status
+
+git add -A  		   // addes all Files to git
+git add -u  		   // updates modfied files, 
+
+git commit -m "<msg>"  // commit into local repo tree
+
+git push 			   // push master server
+
