@@ -15,7 +15,7 @@ $jsDir="js/";
  **/
 
 $extJS=array(
-		'jquery',
+		'jquery.1.8.2',
 		'tquery-bundle-require',
 		'THREEx.KeyboardState',
 		'ColladaLoader',

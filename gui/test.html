@@ -1,14 +1,37 @@
 <html>
 <head/>
 
+<link type="text/css" href="../external/css/eggplant/jquery-ui-1.8.23.custom.css" rel="stylesheet" />
+<script type="text/javascript" src="../external/js/jquery-1.8.2.js"></script>
+<script type="text/javascript" src="../external/js/jquery-ui-1.8.23.custom.min.js"></script>
 
-<link rel="stylesheet" type="text/css" href="gui.css">
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
 <script src="gui.js"></script>
 
-
+<style>
+#toolbar {
+	padding: 20px 6px;
+}
+</style>
 <body>
-Ich bin der Body
+	Ich bin der Body
+
+<div class="demo">
+
+<span id="toolbar" class="ui-widget-header ui-corner-all">
+	<span id="repeat">
+		<input type="radio" id="slot0" name="repeat" checked="checked" /><label for="slot0">primary</label>
+		<input type="radio" id="slot1" name="repeat" /><label for="slot1">secondary</label>
+		<input type="radio" id="slot2" name="repeat" /><label for="slot2">terrtiary</label>
+		<input type="radio" id="slot3" name="repeat" /><label for="slot3">extra1</label>
+		<input type="radio" id="slot4" name="repeat" /><label for="slot4">extra2</label>
+	</span>
+</span>
+
+</div><!-- End demo -->
+
+
+
+
 </body>
 
 </html>
