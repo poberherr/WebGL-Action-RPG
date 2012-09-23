@@ -7,7 +7,11 @@
 */
 
 
-function updateCamera(camera, newpos, lookAt) {
+function updateCamera(
+						camera, 
+						newpos, 
+						lookAt
+					) {
 
 	camera.position.x = newpos[0];
 	camera.position.y = newpos[1];
