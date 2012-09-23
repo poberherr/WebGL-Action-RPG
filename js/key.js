@@ -17,7 +17,7 @@ $(document).mousemove(function(e){
 
 });
 
-$(document).onclick(function(e){
+$(document).click(function(e){
 
 	// TODO: Do magic here 
 

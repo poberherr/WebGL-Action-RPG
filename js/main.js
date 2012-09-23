@@ -104,6 +104,30 @@ $(document).ready(function(){
 	}).addTo(world).scaleBy(40);
 
 
+	/**/
+
+	// Model
+	var loader = new THREE.JSONLoader();
+
+
+	loader.load( "model/blade/blade.js", function( geometry ) {
+
+			var material = new THREE.MeshPhongMaterial( { map: THREE.ImageUtils.loadTexture( "model/blade/blade.jpg" ), ambient: 0x999999, color: 0xffffff, specular: 0xffffff, shininess: 25, morphTargets: true } );
+			var mesh = new THREE.MorphAnimMesh( geometry, material );
+			mesh.rotation.y = -Math.PI/2;
+			//mesh.scale.set(4,4,4);
+			mesh.duration = 1000*20;
+			mesh.castShadow = true;
+			mesh.receiveShadow = false;
+
+			tQuery(mesh).scale(0.05).translateY(0.8).addTo(world);
+
+			//animate();
+
+	} );
+
+	/**/
+
 	var loader = new THREE.ColladaLoader();
 	var skin = null;
 	loader.options.convertUpAxis = true;
