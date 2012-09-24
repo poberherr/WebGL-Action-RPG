@@ -22,8 +22,7 @@ $extJS=array(
 
 $intJS= array(
 		'gui',
-		'key',
-		//'cam',
+		'player',
 		'main',
 );
 
@@ -48,12 +47,7 @@ $html .= '<body>';
  * TODO:  P.O: - Raem doch endlich mla dein Zimmer auf aber zack zack ... das ist ja die hoelle in farbe und 3D  ~ inbre
  */
 $html .= '
-<style>
-	#toolbar { padding: 15px 6px; }
-</style>
-<div class="demo">
-	<span style="position:fixed;top:50px;px;z-index:100;opacity:0.4;" id="toolbar" class="ui-widget-header ui-corner-all">
-	<!--span style="position:fixed;top:50px;px;z-index:100;opacity:0.4;" id="toolbar" class="ui-widget-header ui-corner-all"-->
+	<span id="toolbar" class="ui-widget-header ui-corner-all">
 		<button id="beginning">go to beginning</button>
 		<button id="rewind">rewind</button>
 		<button id="play">play</button>
@@ -69,7 +63,6 @@ $html .= '
 			<input type="radio" id="slot4" name="repeat" /><label for="slot4">extra2</label>
 		</span>
 	</span>
-</div>
 ';
 
 $html .= '</body>';

@@ -1,21 +1,30 @@
+
+
 $(document).ready(function(){
 
-		var keyboard = new THREEx.KeyboardState();
+		var player = null;
 
-		var bigrobot_mesh = null;
+
+		//var keyboard = new THREEx.KeyboardState();
+
+
+		//var bigrobot_mesh = null;
 
 		var SCREEN_WIDTH = window.innerWidth;
 		var SCREEN_HEIGHT = window.innerHeight;
-		var FLOOR = -250;
+		//var FLOOR = -250;
 
 		var container,stats;
 
 		var camera, scene;
-		var canvasRenderer, webglRenderer;
+		var canvasRenderer, 
+			webglRenderer;
 
+		// temp for mesh and geom THREE.Objects
 		var mesh, zmesh, geometry;
 
 		var mouseX = 0, mouseY = 0;
+
 
 		var windowHalfX = window.innerWidth / 2;
 		var windowHalfY = window.innerHeight / 2;
@@ -75,10 +84,10 @@ $(document).ready(function(){
 			scene.add( mesh );
 			*/
 			// SPHERES
-
+/*
 			var material_spheres = new THREE.MeshLambertMaterial( { color: 0xdddddd } ),
 			    sphere = new THREE.SphereGeometry( 100, 16, 8 );
-
+*/
 /*
 			for ( var i = 0; i < 10; i ++ ) {
 
@@ -155,12 +164,16 @@ $(document).ready(function(){
 				material = new THREE.MeshPhongMaterial( { map: THREE.ImageUtils.loadTexture( "model/blade/blade.jpg" ), ambient: 0x999999, color: 0xffffff, specular: 0xffffff, shininess: 25, morphTargets: true } );
 				zmesh = new THREE.MorphAnimMesh( geometry, material );
 				zmesh.rotation.y = -Math.PI/2;
-				zmesh.scale.set(4,4,4);
+				zmesh.scale.set(0.1,0.1,0.1);
 				zmesh.duration = 1000*20;
 				zmesh.castShadow = true;
 				zmesh.receiveShadow = false;
-				zmesh.position.set( -80, FLOOR, 50 );
-				bigrobot_mesh = zmesh;
+				//zmesh.position.set( -80, FLOOR, 50 );
+				//bigrobot_mesh = zmesh;
+				
+				player = new Player(camera,zmesh);
+				player.setCam(15,0,0);
+
 				scene.add( zmesh );
 
 				//createMaterialsPalette( geometry.materials, 100, 0 );
@@ -253,6 +266,7 @@ $(document).ready(function(){
 
 		function animate() {
 
+
 			requestAnimationFrame( animate );
 
 			render();
@@ -261,13 +275,11 @@ $(document).ready(function(){
 		}
 
 		function render() {
-
 			//camera.position.x += ( mouseX - camera.position.x ) * .05;
 			//camera.position.y += ( - mouseY - camera.position.y ) * .05;
 
-			if(bigrobot_mesh != null ) {
-				bigrobot_mesh.rotation.y += 0.01;
-				camera.lookAt( bigrobot_mesh.position );
+			if(player != null ) {
+				player.keyboardControls();
 			}
 
 			
@@ -511,74 +523,17 @@ $(document).ready(function(){
 	}
 	*/
 
-function keyboardEvents(){
 
-	
-	if( keyboard.pressed('w') ){
+// ------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------
 
-	console.log(' pressed w ');
 
-	}
-
-	/*
-	action = false;
-	if( tQuery.keyboard().pressed('w') )  {
-		if(direction != 'w'){
-			dae.rotation.y = 1.5;
-		}else{
-			bla.translateZ(-0.1);
-		}
-		direction = 'w';
-		action = true;
-	}
-	if( tQuery.keyboard().pressed('a') ) {
-		if(direction != 'a'){
-			dae.rotation.y = 3.3 ;
-		}else{
-			bla.translateX(-0.1);	
-		}
-		direction = 'a';
-		action = true;
-	}
-	if( tQuery.keyboard().pressed('s') ) {
-		if(direction != 's'){
-			dae.rotation.y = -1.5;
-		}else{
-			bla.translateZ(0.1);	
-		}
-		direction = 's';
-		action = true;
-	}
-	if( tQuery.keyboard().pressed('d') ) {
-		if(direction != 'd'){
-			dae.rotation.y = 0;
-		}else{
-			bla.translateX(0.1);
-		}
-		direction = 'd';
-		action = true;
-	}
-
-	if( tQuery.keyboard().pressed('space') ) {
-		worldrotx+=0.1;
-		console.log(worldrotx);
-	}	
-
-	if( tQuery.keyboard().pressed('up') ) {
-		bla.translateY(0.1);
-		action = true;
-	}	
-	if( tQuery.keyboard().pressed('down') ) {
-		bla.translateY(-0.1);
-		action = true;
-	}
-	prev_action = action;
-
-	if( !prev_action && !action){
-		runani = false;
-	}else{
-		runani = true;
-	}
-	*/
-}
-});	
+});	 // document ready ende

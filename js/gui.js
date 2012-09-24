@@ -8,7 +8,7 @@
 
 
 
-$(function() {
+$(document).ready(function(){
 
 	$( "#beginning" ).button({
 		text: false,
@@ -81,18 +81,25 @@ $(function() {
 
 
 	$( "#repeat" ).buttonset();
+
+
+
+//toolbar_topoffset = window.innerHeight - $('#toolbar').height();
+//console.log(toolbar_topoffset);
+$('#toolbar').css({
+
+	"padding": "15px",
+	"position":"absolute",
+	"top": 10 + "px",
+	"left": window.innerWidth/2 - $('#toolbar').width()/2 + "px",
+	"z-index":100,
+	"opacity":0.4,
 });
 
+$('#toolbar').show();
 
-
-
-$('.demo').css({
-	position:fixed,
-	top:50px,
-	z-index:100,
-	opacity:0.4,
+$(document.body).css({'margin':'0px'});
 });
-
 
 
 
