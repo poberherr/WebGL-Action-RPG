@@ -6,7 +6,7 @@
 			=> camera new pos
 */
 
-
+/*
 function updateCamera(
 						camera, 
 						newpos, 
@@ -23,3 +23,4 @@ function updateCamera(
 		lookAt[2]
 	));
 }
+*/

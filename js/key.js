@@ -1,3 +1,4 @@
+/*
 var direction = 'd';
 var prev_action = false;
 mouseX = 0;
@@ -6,25 +7,12 @@ winW = window.innerWidth;
 winH = window.innerHeight;
 player_x=winW/2;
 player_y=winH/2;
-
-$(document).mousemove(function(e){
-	      /*var pageCoords = "( " + e.pageX + ", " + e.pageY + " )";
-		  var clientCoords = "( " + e.clientX + ", " + e.clientY + " )";
-			alert(pageCoords + "," + clientCoords);*/
-	mouseX = e.pageX;
-	mouseY = e.pageY;
-
-
-});
-
-$(document).click(function(e){
-
-	// TODO: Do magic here 
-
-});
-
+*/
 function keyboardEvents(){
 
+	
+
+	/*
 	action = false;
 	if( tQuery.keyboard().pressed('w') )  {
 		if(direction != 'w'){
@@ -83,5 +71,5 @@ function keyboardEvents(){
 	}else{
 		runani = true;
 	}
-
+	*/
 }

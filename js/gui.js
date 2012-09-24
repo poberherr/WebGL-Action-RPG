@@ -86,6 +86,12 @@ $(function() {
 
 
 
+$('.demo').css({
+	position:fixed,
+	top:50px,
+	z-index:100,
+	opacity:0.4,
+});
 
 
 
