@@ -38,8 +38,6 @@ $html .= '<head/>';
  */ 
 foreach ($exCSS as $cssFileName){$html .= '<link type="text/css" href="'.$extdir.$cssFileName.'.css" rel="stylesheet" />'."\n";}
 foreach ($inCSS as $cssFileName){$html .= '<link type="text/css" href="css/'.$cssFileName.'.css" rel="stylesheet" />'."\n";}
-foreach ($extJS as $jsFileName) {$html .= '<script src="'.$extdir.$jsFileName.'.js" ></script>'."\n";}
-foreach ($intJS as $jsFileName) {$html .= '<script src="js/'.$jsFileName.'.js" ></script>'."\n";}
 
 $html .= '<body>';
 
@@ -47,7 +45,7 @@ $html .= '<body>';
  * TODO:  P.O: - Raem doch endlich mla dein Zimmer auf aber zack zack ... das ist ja die hoelle in farbe und 3D  ~ inbre
  */
 $html .= '
-	<span id="toolbar" class="ui-widget-header ui-corner-all">
+	<span id="toolbar" class="ui-widget-header ui-corner-all" style="position:absolute;top:0px;left:0px;">
 		<button id="beginning">go to beginning</button>
 		<button id="rewind">rewind</button>
 		<button id="play">play</button>
@@ -66,6 +64,8 @@ $html .= '
 ';
 
 $html .= '</body>';
+foreach ($extJS as $jsFileName) {$html .= '<script src="'.$extdir.$jsFileName.'.js" ></script>'."\n";}
+foreach ($intJS as $jsFileName) {$html .= '<script src="js/'.$jsFileName.'.js" ></script>'."\n";}
 $html .= '</html>';
 
 echo $html;

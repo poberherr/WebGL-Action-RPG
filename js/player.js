@@ -90,7 +90,7 @@ Player = function(_camera,_mesh) {
 
 	this.setCam = function(_r,_phi,_theta) {
 
-		console.log("setCam(" + _r + "," + _phi + "," + _theta + ")" );	
+		//console.log("setCam(" + _r + "," + _phi + "," + _theta + ")" );	
 
 		if( _r < 0) return;
 		if(_phi < -Math.PI){_phi = Math.PI;}
@@ -165,6 +165,55 @@ Player = function(_camera,_mesh) {
 
 
 	}
+
+	this.duration = 0;
+	this.keyframes = 0; 
+	this.offset_keyframe_running = 0;
+
+	this.interpolation = 0; 
+	this.lastKeyframe = 0; 
+	this.currentKeyframe = 1; 
+
+	this.setAnimation = function ( _speed, _keyframes, _offset_keyframe_running )
+	{
+		this.duration = _speed * _keyframes ; 
+		this.keyframes = _keyframes; 
+		this.offset_keyframe_running = _offset_keyframe_running;
+
+		this.interpolation = this.duration / this.keyframes;
+		this.lastKeyframe = this.offset_keyframe_running;
+		this.currentKeyframe = this.offset_keyframe_running + 1;
+
+	}
+
+
+	this.playAnimation = function ()
+	{
+		var mesh = this.mesh;
+
+		// Alternate morph targets
+		var time = Date.now() % this.duration;
+
+		var keyframe = Math.floor( time / this.interpolation ) + this.offset_keyframe_running;
+
+		if ( keyframe != this.currentKeyframe ) {
+
+			mesh.morphTargetInfluences[ this.lastKeyframe ] = 0;
+			mesh.morphTargetInfluences[ this.currentKeyframe ] = 1;
+			mesh.morphTargetInfluences[ this.keyframe ] = 0;
+
+			this.lastKeyframe = this.currentKeyframe;
+			this.currentKeyframe = keyframe;
+
+			//console.log( mesh.morphTargetInfluences );
+		}
+		mesh.morphTargetInfluences[ keyframe ] = ( time % this.interpolation ) / this.interpolation;
+		mesh.morphTargetInfluences[ this.lastKeyframe ] = 1 - mesh.morphTargetInfluences[ keyframe ];
+
+	}
+
+
+
 };
 
 

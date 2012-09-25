@@ -84,13 +84,17 @@ $(document).ready(function(){
 
 
 
-//toolbar_topoffset = window.innerHeight - $('#toolbar').height();
-//console.log(toolbar_topoffset);
-$('#toolbar').css({
 
+toolbar_topoffset = window.innerHeight- 2*$('#toolbar').height();
+console.log(window.innerHeight);
+console.log(toolbar_topoffset);
+
+
+$('#toolbar').css({
+	"margin":"0px",
 	"padding": "15px",
 	"position":"absolute",
-	"top": 10 + "px",
+	"top": toolbar_topoffset + "px",
 	"left": window.innerWidth/2 - $('#toolbar').width()/2 + "px",
 	"z-index":100,
 	"opacity":0.4,
@@ -102,34 +106,3 @@ $(document.body).css({'margin':'0px'});
 });
 
 
-
-
-
-/*
-	Create Weaponslots!
-*/
-
-// Fix the Gui element size for now
-
-// Get Position in the middle of window top
-
-/*
-$(document).ready(function(){
-	//alert("Finished loading page will now du stupid js stuff");
-	
-	var weaponSlots = [];
-
-	for (i=0; i<5; i++) {
-		// var divElement = new Element('div', {id: 'slot'+i, class: 'half_transparent round_corners size_big'});
-		var divElement = $('<div id="'+'slot'+i+'" class="half_transparent round_corners size_big">div'+i+'</div>');
-		weaponSlots[i] = divElement;
-	}
-	
-	for (i=0; i<5; i++) {
-		$("body").append(weaponSlots[i]);	
-	}
-
-});
-*/
-// Create Weapon slot elements ( 2 left from middle - 2 right )
-//$('#dvLinkToolTip').css({ left: $(this).position().left - 300, top: $(this).position().top - 45 }).show();
