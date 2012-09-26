@@ -1,5 +1,5 @@
 
-//$(document).ready(function(){
+$(document).ready(function(){
 
 		var player;
 		var SCREEN_WIDTH = window.innerWidth;
@@ -104,15 +104,29 @@
 				mesh.receiveShadow = false;
 				//mesh.position.set( -80, FLOOR, 50 );
 				player = new Player(camera,mesh);
-				var charSpeed = 100;
+				var charSpeed = 200;
 				
 				//player.setAnimation( charSpeed, 40,   0 ); // stand
-				player.setAnimation( charSpeed,  6,  40 ); // run
+				//player.setAnimation( charSpeed,  6,  40 ); // run
 				//player.setAnimation( charSpeed,  8,  46 ); // attack
 				//player.setAnimation( charSpeed, 12,  54 ); // pain
 				//player.setAnimation( charSpeed,  6,  66 ); // jump 
-				
 				//player.setAnimation( charSpeed, 12,  72 ); // flip off
+				//player.setAnimation( charSpeed, 11,  84 ); // salute
+				//player.setAnimation( charSpeed, 17,  95 ); // taunt
+				//player.setAnimation( charSpeed, 11,  112 ); // wave
+				player.setAnimation( charSpeed, 12,  123 ); // point
+				//player.setAnimation( charSpeed, 19,  135); // crstand
+				//player.setAnimation( charSpeed, 6,  154); // crwalk
+				//player.setAnimation( charSpeed, 9,  160); // crattack
+				//player.setAnimation( charSpeed, 4,  169); // crpain
+				//player.setAnimation( charSpeed, 5,  173); // crdeath
+				//player.setAnimation( charSpeed, 6,  178); // deatha falling on back
+				//player.setAnimation( charSpeed, 6,  184); // death falling over sideways
+				//player.setAnimation( charSpeed, 8,  190); // death falling on front
+
+				//player.setAnimation( charSpeed, 1,  198); // skinref
+				//player.setAnimation( charSpeed, 1,  199); // explode  
 
 				player.setCam(15,0,0);
 				scene.add( mesh );
@@ -220,4 +234,4 @@
 
 
 
-//});	 // document ready ende
+});	 // document ready ende
