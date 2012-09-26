@@ -22,8 +22,8 @@ $(document).ready(function(){
 		function init() {
 
 			
-			//container = document.createElement( 'div' );
-			//document.body.appendChild( container );
+			container = document.createElement( 'div' );
+			document.body.appendChild( container );
 			camera = new THREE.PerspectiveCamera( 75, SCREEN_WIDTH / SCREEN_HEIGHT, 1, 100000 );
 			scene = new THREE.Scene();
 
@@ -76,13 +76,13 @@ $(document).ready(function(){
 
 			// STATS
 
-			/*
+			/**/
 			stats = new Stats();
 			stats.domElement.style.position = 'absolute';
-			stats.domElement.style.top = window.innerHeight-100; 
+			stats.domElement.style.top = 0;//window.innerHeight-100; 
 			stats.domElement.style.zIndex = 100;
 			container.appendChild( stats.domElement );
-			*/
+			/**/
 			//
 
 			var cbCreatePlayer = function( geometry ) {
@@ -104,8 +104,14 @@ $(document).ready(function(){
 				mesh.receiveShadow = false;
 				//mesh.position.set( -80, FLOOR, 50 );
 				player = new Player(camera,mesh);
+
 				var charSpeed = 200;
-				
+			
+				player.mesh.parseAnimations(); // << Funkton fuer Faule P.O.'s :-P 	
+				//player.mesh.setAnimationLabel ('stand',0,39);
+				//player.mesh.setAnimationLabel ('run',40,45);
+				//player.mesh.playAnimation ('stand', 5 );
+				player.mesh.playAnimation ('run', 10 );
 				//player.setAnimation( charSpeed, 40,   0 ); // stand
 				//player.setAnimation( charSpeed,  6,  40 ); // run
 				//player.setAnimation( charSpeed,  8,  46 ); // attack
@@ -115,18 +121,18 @@ $(document).ready(function(){
 				//player.setAnimation( charSpeed, 11,  84 ); // salute
 				//player.setAnimation( charSpeed, 17,  95 ); // taunt
 				//player.setAnimation( charSpeed, 11,  112 ); // wave
-				player.setAnimation( charSpeed, 12,  123 ); // point
+				//player.setAnimation( charSpeed, 12,  123 ); // point
 				//player.setAnimation( charSpeed, 19,  135); // crstand
-				//player.setAnimation( charSpeed, 6,  154); // crwalk
-				//player.setAnimation( charSpeed, 9,  160); // crattack
-				//player.setAnimation( charSpeed, 4,  169); // crpain
-				//player.setAnimation( charSpeed, 5,  173); // crdeath
-				//player.setAnimation( charSpeed, 6,  178); // deatha falling on back
-				//player.setAnimation( charSpeed, 6,  184); // death falling over sideways
-				//player.setAnimation( charSpeed, 8,  190); // death falling on front
+				//player.setAnimation( charSpeed,  6,  154); // crwalk
+				//player.setAnimation( charSpeed,  9,  160); // crattack
+				//player.setAnimation( charSpeed,  4,  169); // crpain
+				//player.setAnimation( charSpeed,  5,  173); // crdeath
+				//player.setAnimation( charSpeed,  6,  178); // deatha falling on back
+				//player.setAnimation( charSpeed,  6,  184); // death falling over sideways
+				//player.setAnimation( charSpeed,  8,  190); // death falling on front
 
-				//player.setAnimation( charSpeed, 1,  198); // skinref
-				//player.setAnimation( charSpeed, 1,  199); // explode  
+				//player.setAnimation( charSpeed,  1,  198); // skinref <-- no idea what this is 
+				//player.setAnimation( charSpeed,  1,  199); // explode <-- needs to be combined with other frames 
 
 				player.setCam(15,0,0);
 				scene.add( mesh );
@@ -170,59 +176,27 @@ $(document).ready(function(){
 			requestAnimationFrame( animate );
 
 			render();
-			//stats.update();
+			stats.update();
 
 		}
 
+		var delta;
+		var time;
+		var oldTime;
 
-		/*		
-		duration = 600; 
-		keyframes = 6; 
-		offset_keyframe_running = 40;
-		
-		duration = 4000; 
-		keyframes = 40; 
-		offset_keyframe_running = 0;
-
-		duration = 600; 
-		keyframes = 6; 
-		offset_keyframe_running = 66;
-		
-
-		var interpolation = duration / keyframes;
-		var lastKeyframe = offset_keyframe_running;
-		var currentKeyframe = offset_keyframe_running + 1;
-		
-		function playAnimation(player)
-		{
-				var mesh = player.mesh;
-
-				// Alternate morph targets
-				var time = Date.now() % player.duration;
-
-				var keyframe = Math.floor( time / player.interpolation ) + player.offset_keyframe_running;
-
-				if ( keyframe != player.currentKeyframe ) {
-
-					mesh.morphTargetInfluences[ player.lastKeyframe ] = 0;
-					mesh.morphTargetInfluences[ player.currentKeyframe ] = 1;
-					mesh.morphTargetInfluences[ player.keyframe ] = 0;
-
-					player.lastKeyframe = player.currentKeyframe;
-					player.currentKeyframe = keyframe;
-
-					//console.log( mesh.morphTargetInfluences );
-				}
-				mesh.morphTargetInfluences[ keyframe ] = ( time % player.interpolation ) / player.interpolation;
-				mesh.morphTargetInfluences[ player.lastKeyframe ] = 1 - mesh.morphTargetInfluences[ keyframe ];
-
-		}
-		*/
-		
 		function render() {
 
+			time = new Date().getTime();
+			delta = time - oldTime;
+			oldTime = time;
+
+			if (isNaN(delta) || delta > 1000 || delta == 0 ) {
+				delta = 1000/60;
+			}
+
 			if(player ) {
-				player.playAnimation();
+				player.mesh.updateAnimation(delta);
+				//player.playAnimation();
 				player.keyboardControls();
 			}
 			if (webglRenderer ) { 
