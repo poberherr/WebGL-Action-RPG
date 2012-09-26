@@ -1,55 +1,4 @@
 
-/*
- * Brainstorm:
-
- private:
-	mesh[geom,text, pos], 
-	v3D direction,
-
-	move(direction,speed);
-	rotate(directin, angle);
-
-public:
-
-	player( mesh )
-
- 	int id
-	string name
-
-	set_ani( strinig ani_id )
-
-	set_pos(x,y,z)
-	set_dir(v3D)
-
-	set_mesh(mesh)
-	set_geom(geom)
-	set_text(text)	
-
-	set_cam(x,y,z,target)  <-- generisch 
-	set_on_player(radius,alpha,beta);        <-- for rotating around player
-		<=> set_cam( kugel berechnungen hier )
-
-	// TODO: later
-	move_up(speed)
-	move_down(speed)
-
-	move_foward(speed) 
-	move_backward(speed)
-	move_left(speed)
-	move_right(speed)
-
-
-	rotate_left(angle,speed)
-	rotate_right(angle,speed)
-		
-
-
-	
-	=> Event Functions 
-		TODO: much later
-
-*/
-
 Player = function(_camera,_mesh) {
 
 	this.keyboard =  new THREEx.KeyboardState();
@@ -65,14 +14,12 @@ Player = function(_camera,_mesh) {
 	this.camera_r = 0;
 	this.camera_phi = 0;
 	this.camera_theta = 0;
+	this.animationState = null;
 
 	this.camera = _camera; /* THREE.Object */
 
 
 	// Mesh Stuff
-
-	this.rotX = 0;
-	this.rotY  = 0; 
 	this.mesh = _mesh; /* THREE.Object */
 
 
@@ -133,20 +80,19 @@ Player = function(_camera,_mesh) {
 		this.setCam(this.camera_r,this.camera_phi +dz , this.camera_theta );
 	}
 
-	this.keyboardControls = function(){
 
+	
+
+	this.keyboardControls = function()
+	{
 		// WSAD
-		if( this.keyboard.pressed('w') ) {
-			// move forward
+		if( this.keyboard.pressed('w')) {
 		}	
 		if( this.keyboard.pressed('s') ) {
-			// move backward
 		}
 		if( this.keyboard.pressed('a') ) {
-			// move left 
 		}	
 		if( this.keyboard.pressed('d') ) {
-			// move right 
 		}
 
 		// Arrow Keys
@@ -163,56 +109,17 @@ Player = function(_camera,_mesh) {
 			this.turnCameraRight(0.1);
 		}
 
-
 	}
 
-	this.duration = 0;
-	this.keyframes = 0; 
-	this.offset_keyframe_running = 0;
-
-	this.interpolation = 0; 
-	this.lastKeyframe = 0; 
-	this.currentKeyframe = 1; 
-
-	this.setAnimation = function ( _speed, _keyframes, _offset_keyframe_running )
+	this.follow2DWindowTarget = function(x,y)
 	{
-		this.duration = _speed * _keyframes ; 
-		this.keyframes = _keyframes; 
-		this.offset_keyframe_running = _offset_keyframe_running;
-
-		this.interpolation = this.duration / this.keyframes;
-		this.lastKeyframe = this.offset_keyframe_running;
-		this.currentKeyframe = this.offset_keyframe_running + 1;
-
+		var g = Math.atan((-y)/x) * 180/Math.PI;
+		var b = g * Math.PI/180;
+		if(x < 0){
+			b += Math.PI;
+		}	
+		this.mesh.rotation.y = b;
 	}
-
-
-	this.playAnimation = function ()
-	{
-		var mesh = this.mesh;
-
-		// Alternate morph targets
-		var time = Date.now() % this.duration;
-
-		var keyframe = Math.floor( time / this.interpolation ) + this.offset_keyframe_running;
-
-		if ( keyframe != this.currentKeyframe ) {
-
-			mesh.morphTargetInfluences[ this.lastKeyframe ] = 0;
-			mesh.morphTargetInfluences[ this.currentKeyframe ] = 1;
-			mesh.morphTargetInfluences[ this.keyframe ] = 0;
-
-			this.lastKeyframe = this.currentKeyframe;
-			this.currentKeyframe = keyframe;
-
-			//console.log( mesh.morphTargetInfluences );
-		}
-		mesh.morphTargetInfluences[ keyframe ] = ( time % this.interpolation ) / this.interpolation;
-		mesh.morphTargetInfluences[ this.lastKeyframe ] = 1 - mesh.morphTargetInfluences[ keyframe ];
-
-	}
-
-
 
 };
 
