@@ -102,14 +102,14 @@ $(document).ready(function(){
 			// without one of these, the scene's background color is determined by webpage background
 
 			// make sure the camera's "far" value is large enough so that it will render the skyBox!
-			var skyBoxGeometry = new THREE.CubeGeometry( 10000, 10000, 10000 );
-			var skyBoxMaterial = new THREE.MeshBasicMaterial( { color: 0x9999ff } );
-			var skyBox = new THREE.Mesh( skyBoxGeometry, skyBoxMaterial );
-			skyBox.flipSided = true; // render faces from inside of the cube, instead of from outside (default).
-			scene.add(skyBox);
+			//var skyBoxGeometry = new THREE.CubeGeometry( 10000, 10000, 10000 );
+			//var skyBoxMaterial = new THREE.MeshBasicMaterial( { color: 0x9999ff } );
+			//var skyBox = new THREE.Mesh( skyBoxGeometry, skyBoxMaterial );
+			//skyBox.flipSided = true; // render faces from inside of the cube, instead of from outside (default).
+			//scene.add(skyBox);
 
 			// fog must be added to scene before first render
-			scene.fog = new THREE.FogExp2( 0x9999ff, 0.00025 );
+			//scene.fog = new THREE.FogExp2( 0x9999ff, 0.00025 );
 
 
 			// RENDERER
@@ -121,13 +121,13 @@ $(document).ready(function(){
 
 			// STATS
 
-			/**/
+			/*
 			stats = new Stats();
 			stats.domElement.style.position = 'absolute';
 			stats.domElement.style.top = 0;//window.innerHeight-100; 
 			stats.domElement.style.zIndex = 100;
 			document.body.appendChild( stats.domElement );
-			/**/
+			*/
 			//
 
 			var cbCreatePlayer = function( geometry ) {
@@ -148,14 +148,10 @@ $(document).ready(function(){
 				mesh.duration = 1000*20;
 				mesh.castShadow = true;
 				mesh.receiveShadow = false;
-				//mesh.position.set( -80, 0, 50 );
 				player = new Player(camera,mesh);
-
-				//var charSpeed = 200;
-			
 				player.mesh.parseAnimations(); // << Funkton fuer Faule P.O.'s :-P 	
 				player.mesh.playAnimation ('stand',7 );
-				player.setCam(15,0,0);
+				player.setCam(-15,0,0);
 				scene.add( mesh );
 			} 
 
@@ -195,7 +191,7 @@ $(document).ready(function(){
 			requestAnimationFrame( animate );
 
 			render();
-			stats.update();
+			//stats.update();
 
 		}
 
@@ -265,48 +261,62 @@ $(document).ready(function(){
 		*/
 
 	
-	function onKeyDown(event){
-				//console.log("down " + event.keyCode);
+	function onKeyDown(event)
+	{
+			//console.log("down " + event.keyCode);
 			if(event.keyCode == 87){
 				//this.move_fwd = true;
 				player.setAnimActiv('run');
 				player.mesh.setDirectionForward();
-				player.moveFwd = true;
-			}else
+				player.moveF = true;
+			}
 			if(event.keyCode == 83){
 				//this.move_fwd = true;
 				player.setAnimActiv('run');
 				player.mesh.setDirectionBackward();
-				player.moveBwd = true;
+				player.moveB = true;
 			}
 			if(event.keyCode == 65){
 				player.moveL = true;
-			}else
+			}
 			if(event.keyCode == 68){
 				player.moveR = true;
 			}
+			if(event.keyCode == 37){
+				player.turnCamL = true;
+			}else
+			if(event.keyCode == 39){
+				player.turnCamR = true;
+			}
+
 	}
 
-	function onKeyUp(event){
-				//console.log("Up " + event.keyCode);
+	function onKeyUp(event)
+	{
+			//console.log("Up " + event.keyCode);
 			if(event.keyCode == 87){
-				//this.move_fwd = false;
 				player.setAnimActiv('stand');
 				player.mesh.setDirectionForward();
-				player.moveFwd = false;
-			}else
+				player.moveF = false;
+			}
 			if(event.keyCode == 83){
-				//this.move_fwd = true;
 				player.setAnimActiv('stand');
 				player.mesh.setDirectionForward();
-				player.moveBwd = false;
+				player.moveB = false;
 			}
 			if(event.keyCode == 65){
 				player.moveL = false;
-			}else
+			}
 			if(event.keyCode == 68){
 				player.moveR = false;
 			}
+			if(event.keyCode == 37){
+				player.turnCamL = false;
+			}else
+			if(event.keyCode == 39){
+				player.turnCamR = false;
+			}
+
 	}
 
 	document.addEventListener("keydown", onKeyDown, false);
