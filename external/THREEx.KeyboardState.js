@@ -103,15 +103,17 @@ THREEx.KeyboardState.prototype.pressed	= function(keyDesc)
 	var keys	= keyDesc.split("+");
 	for(var i = 0; i < keys.length; i++){
 		var key		= keys[i];
-		var pressed;
+		var pressed = 0;
 		if( THREEx.KeyboardState.MODIFIERS.indexOf( key ) !== -1 ){
 			pressed	= this.modifiers[key];
-		}else if( Object.keys(THREEx.KeyboardState.ALIAS).indexOf( key ) != -1 ){
+		}else 
+		if( Object.keys(THREEx.KeyboardState.ALIAS).indexOf( key ) != -1 ){
 			pressed	= this.keyCodes[ THREEx.KeyboardState.ALIAS[key] ];
+
 		}else {
 			pressed	= this.keyCodes[key.toUpperCase().charCodeAt(0)]
 		}
 		if( !pressed)	return false;
 	};
-	return 1;
+	return true;
 }

@@ -18,7 +18,7 @@ $extJS=array(
 		'three.min',
 		'Detector',
 		'Stats',
-		'THREEx.KeyboardState',
+		//'THREEx.KeyboardState',
 	);
 
 $intJS= array(

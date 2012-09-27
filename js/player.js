@@ -102,7 +102,16 @@ Player = function(_camera,_mesh) {
 	}
 
 	this.moveFwd = false;
+	this.moveBwd = false;
+	this.moveL = false;
+	this.moveR = false;
 
+	this.moveLeft = function(){
+		this.mesh.rotation.y += 0.1;
+	}
+	this.moveRight = function(){
+		this.mesh.rotation.y -= 0.1;
+	}
 	this.moveForward = function(){
 		//console.log(this.mesh.position.x+ ","+ this.mesh.position.z);
 		var b = -this.mesh.rotation.y;
@@ -123,51 +132,39 @@ Player = function(_camera,_mesh) {
 			
 	}
 
+	this.moveBackward = function(){
+		//console.log(this.mesh.position.x+ ","+ this.mesh.position.z);
+		var b = -this.mesh.rotation.y + Math.PI;
+		//var g = b/Math.PI * 180;
+		var g = b;
+		//console.log(g);
+		var dz = Math.sin(g);
+		//console.log("dz " + dz);
+		var dx = Math.cos(g);
+		//console.log("dx " + dx);
+		var new_x = this.mesh.position.x + dx;
+		var new_z = this.mesh.position.z + dz;
+		this.mesh.position.x += dx;
+		this.mesh.position.z += dz;
+		this.setCam(this.camera_r,this.camera_phi , this.camera_theta );
+		///his.camera.lookAt(this.mesh.position);
+		//console.log(new_x + ","+ new_z);
+			
+	}
 	this.move = function(){
 		if(this.moveFwd){
 			this.moveForward();
 		}
+		if(this.moveBwd){
+			this.moveBackward();
+		}
+		if(this.moveL){
+			this.moveLeft();
+		}
+		if(this.moveR){
+			this.moveRight();
+		}
 	}
-	//this.keyboardControls = function()
-	//{
-		//if(this.move_fwd){
-		//	this.setAnimActiv('run');
-			//this.mesh.setDirectionForward();
-		//}
-			//console.log("not moving forward");
-			//this.setAnimActiv('stand');
-		//console.log(this.keyboard.pressed('w'));
-		/*
-		// WSAD
-		if( this.keyboard.pressed('w')) {
-			this.setAnimActiv('run');
-			this.mesh.setDirectionForward();
-		}
-		if( this.keyboard.pressed('s') ) {
-			this.setAnimActiv('run');
-			this.mesh.setDirectionBackward();
-		}
-		if( this.keyboard.pressed('a') ) {
-		}	
-		if( this.keyboard.pressed('d') ) {
-		}
-		if( this.keyboard.pressed('space') ) {
-		}
-		// Arrow Keys
-		if( this.keyboard.pressed('up') ) {
-			this.zoomIn(1);
-		}	
-		if( this.keyboard.pressed('down') ) {
-			this.zoomOut(1);
-		}
-		if( this.keyboard.pressed('left') ) {
-			this.turnCameraLeft(0.1);
-		}	
-		if( this.keyboard.pressed('right') ) {
-			this.turnCameraRight(0.1);
-		}
-		*/
-	//}
 
 };
 
