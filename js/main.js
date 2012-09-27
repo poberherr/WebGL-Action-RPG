@@ -1,6 +1,7 @@
 
 $(document).ready(function(){
 
+
 		var player;
 		var SCREEN_WIDTH = window.innerWidth;
 		var SCREEN_HEIGHT = window.innerHeight;
@@ -23,6 +24,26 @@ $(document).ready(function(){
 			
 			camera = new THREE.PerspectiveCamera( 75, SCREEN_WIDTH / SCREEN_HEIGHT, 1, 100000 );
 			scene = new THREE.Scene();
+
+
+			//-----------------------------
+
+			var materials = [];
+
+			for ( var i = 0; i < 6; i ++ ) {
+				materials.push( new THREE.MeshBasicMaterial( { color: Math.random() * 0xffffff } ) );
+			}
+
+			cube = new THREE.Mesh( new THREE.CubeGeometry( 250, 10, 250, 1, 1, 1, materials ), new THREE.MeshFaceMaterial() );
+			cube.position.y = -20;
+			cube.position.z = -200;
+			scene.add( cube );
+
+			// Plane
+
+			plane = new THREE.Mesh( new THREE.PlaneGeometry( 200, 200 ), new THREE.MeshBasicMaterial( { color: 0xe0e0e0 } ) );
+			plane.geometry.applyMatrix( new THREE.Matrix4().makeRotationX( - Math.PI / 2 ) );
+			scene.add( plane );
 
 			// LIGHTS
 
@@ -150,7 +171,8 @@ $(document).ready(function(){
 			if(player ) {
 				player.mesh.updateAnimation(delta);
 				//player.playAnimation();
-				player.keyboardControls();
+				//player.keyboardControls();
+				player.move();
 			}
 			if (webglRenderer ) { 
 				webglRenderer.render( scene, camera );
@@ -160,25 +182,65 @@ $(document).ready(function(){
 		}
 
 
+		function setAnim(mesh,label,fps)
+		{
+			player.mesh.playAnimation(label,fps);
+		}
+
 		$(document).mousemove(function(){
 			if(player){
 				player.follow2DWindowTarget(mouseX,mouseY);
 			}
 		});
 
-
+		/*
 		$(document).mousedown(function(){
 			if(player){
-				player.mesh.playAnimation ('run', 7 );
+				player.setAnimActiv('run');
 			}
 		});
 
 		$(document).mouseup(function(){
 			if(player){
-				player.mesh.playAnimation ('stand',7 );
+				player.setAnimActiv('stand');
 			}
 		});
 
+		*/
 
+	
+	function onKeyDown(event){
+				//console.log("down " + event.keyCode);
+			if(event.keyCode == 87){
+				//this.move_fwd = true;
+				player.setAnimActiv('run');
+				player.mesh.setDirectionForward();
+				player.moveFwd = true;
+			}else
+			if(event.keyCode == 83){
+				//this.move_fwd = true;
+				player.setAnimActiv('run');
+				player.mesh.setDirectionBackward();
+			}
+	}
+
+	function onKeyUp(event){
+				//console.log("Up " + event.keyCode);
+			if(event.keyCode == 87){
+				//this.move_fwd = false;
+				player.setAnimActiv('stand');
+				player.mesh.setDirectionForward();
+				player.moveFwd = false;
+			}else
+			if(event.keyCode == 83){
+				//this.move_fwd = true;
+				player.setAnimActiv('stand');
+				player.mesh.setDirectionForward();
+				//player.moveBwd();
+			}
+	}
+
+	document.addEventListener("keydown", onKeyDown, false);
+	document.addEventListener("keyup", onKeyUp, false);
 
 });	 // document ready ende
