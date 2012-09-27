@@ -42,6 +42,9 @@ foreach ($inCSS as $cssFileName){$html .= '<link type="text/css" href="css/'.$cs
 
 $html .= '<body>';
 
+$html .= '<span>';
+$html .= '<b>Player Movement:</b> W A S D / <b>Camera Movement:</b> Arrow Left/Right';
+$html .= '</span>';
 /*
  * TODO:  P.O: - Raem doch endlich mla dein Zimmer auf aber zack zack ... das ist ja die hoelle in farbe und 3D  ~ inbre
  */

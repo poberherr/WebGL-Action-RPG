@@ -23,6 +23,7 @@ $(document).ready(function(){
 
 			
 			camera = new THREE.PerspectiveCamera( 75, SCREEN_WIDTH / SCREEN_HEIGHT, 1, 100000 );
+			//camera.position.y = 50;
 			scene = new THREE.Scene();
 
 			// LIGHTS
@@ -90,8 +91,8 @@ $(document).ready(function(){
 			var floorGeometry = new THREE.PlaneGeometry(1000, 1000,  1);
 			var floor = new THREE.Mesh(floorGeometry, floorMaterial);
 			floor.rotation.x-=Math.PI/2;
-			floor.position.y = -0.5;
-			floor.doubleSided = true;
+			floor.position.y = 0.0;
+			floor.doubleSided = false;
 			scene.add(floor);
 
 			/////////
@@ -288,7 +289,12 @@ $(document).ready(function(){
 			if(event.keyCode == 39){
 				player.turnCamR = true;
 			}
-
+			if(event.keyCode == 38){
+				player.zoomCamOut= true;
+			}else
+			if(event.keyCode == 40){
+				player.zoomCamIn= true;
+			}
 	}
 
 	function onKeyUp(event)
@@ -315,6 +321,12 @@ $(document).ready(function(){
 			}else
 			if(event.keyCode == 39){
 				player.turnCamR = false;
+			}
+			if(event.keyCode == 38){
+				player.zoomCamOut= false;
+			}else
+			if(event.keyCode == 40){
+				player.zoomCamIn= false;
 			}
 
 	}

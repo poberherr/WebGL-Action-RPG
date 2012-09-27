@@ -12,7 +12,7 @@ Player = function(_camera,_mesh) {
 
 	this.camera_r = 0;
 	this.camera_phi = 0;
-	this.camera_theta = 0;
+	this.camera_theta = 0; 
 	//this.animationState = null;
 
 	this.camera = _camera; /* THREE.Object */
@@ -40,11 +40,12 @@ Player = function(_camera,_mesh) {
 	this.setCam = function(_r,_phi,_theta) 
 	{
 		//console.log("setCam(" + _r + "," + _phi + "," + _theta + ")" );	
-		/*if( _r < 0) return;
+		//if( Math.abs(_r) === 0) return;
+
 		if(_phi < -Math.PI){_phi = Math.PI;}
 		if(_phi >  Math.PI){_phi = -Math.PI;}
-		if(_theta < -this.doublePI){_theta = Math.PI;}
-		if(_theta > this.doublePI){_theta = -Math.PI;}*/
+		//if(_theta < -this.doublePI){_theta = Math.PI;}
+		//if(_theta > this.doublePI){_theta = 0;}
 
 		this.camera_r = _r;
 		this.camera_phi = _phi;
@@ -52,13 +53,12 @@ Player = function(_camera,_mesh) {
 			
 		// calc once
 		var tmp = Math.sin(_phi) * _r;
-		this.camera.position.x = tmp * Math.cos(_theta)
-								+ this.mesh.position.x;
-		this.camera.position.y = tmp * Math.sin(_theta)
-								+ this.mesh.position.y;
-		this.camera.position.z = _r * Math.cos(_phi)
-								+ this.mesh.position.z;
+		this.camera.position.x = tmp * Math.cos(_theta) + this.mesh.position.x;
+		this.camera.position.y = tmp * Math.sin(_theta) + this.mesh.position.y;
+		this.camera.position.z =  _r * Math.cos(_phi)   + this.mesh.position.z;
 
+		//console.log(this.camera.position);
+		//console.log(_r * Math.cos(_phi) + this.mesh.position.z);	
 		this.camera.lookAt(this.mesh.position);
 	}
 
@@ -75,12 +75,19 @@ Player = function(_camera,_mesh) {
 	}
 	
 	this.turnCameraLeft = function(dz) {
-		this.setCam(this.camera_r,this.camera_phi -dz, this.camera_theta );
+		this.setCam(this.camera_r, this.camera_phi -dz, this.camera_theta);
 	}
+
 	this.turnCameraRight = function(dz) {
-		this.setCam(this.camera_r,this.camera_phi +dz , this.camera_theta );
+		this.setCam(this.camera_r, this.camera_phi +dz , this.camera_theta);
 	}
-	
+
+	this.turnCameraUp = function(dz) {
+	}
+	this.turnCameraDown = function(dz) {
+
+	}
+
 	this.setAnimActiv = function(label,fps)
 	{
 		if(label !== this.activlabel){
@@ -108,6 +115,10 @@ Player = function(_camera,_mesh) {
 	this.moveB = false;
 	this.moveL = false;
 	this.moveR = false;
+	this.turnCamL = false;
+	this.turnCamR = false;
+	this.zoomCamIn = false;
+	this.zoomCamOut = false;
 
 	this.moveLeft = function()
 	{
@@ -140,8 +151,6 @@ Player = function(_camera,_mesh) {
 		this.setCam(this.camera_r, this.camera_phi , this.camera_theta );
 	}
 
-	this.turnCamL = false;
-	this.turnCamR = false;
 
 	this.move = function()
 	{
@@ -162,6 +171,12 @@ Player = function(_camera,_mesh) {
 		}
 		if(this.turnCamR){
 			this.turnCameraRight(0.1);
+		}
+		if(this.zoomCamIn){
+			this.zoomIn(1);
+		}
+		if(this.zoomCamOut){
+			this.zoomOut(1);
 		}
 
 	}
