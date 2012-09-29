@@ -1,7 +1,11 @@
 
 $(document).ready(function(){
 
+		var onGround = true;
+		var gravity = 1;
+		var yspeed = 0;
 
+		var floor;
 		var player;
 		var SCREEN_WIDTH = window.innerWidth;
 		var SCREEN_HEIGHT = window.innerHeight;
@@ -89,7 +93,7 @@ $(document).ready(function(){
 			floorTexture.repeat.set( 10, 10 );
 			var floorMaterial = new THREE.MeshBasicMaterial( { map: floorTexture } );
 			var floorGeometry = new THREE.PlaneGeometry(1000, 1000,  1);
-			var floor = new THREE.Mesh(floorGeometry, floorMaterial);
+			floor = new THREE.Mesh(floorGeometry, floorMaterial);
 			floor.rotation.x-=Math.PI/2;
 			floor.position.y = 0.0;
 			floor.doubleSided = false;
@@ -150,7 +154,7 @@ $(document).ready(function(){
 				mesh.castShadow = true;
 				mesh.receiveShadow = false;
 				player = new Player(camera,mesh);
-				player.mesh.parseAnimations(); // << Funkton fuer Faule P.O.'s :-P 	
+				player.mesh.parseAnimations();// << Funkton fuer Faule P.O.'s :-P 	
 				player.mesh.playAnimation ('stand',7 );
 				player.setCam(-15,0,0);
 				scene.add( mesh );
@@ -158,9 +162,7 @@ $(document).ready(function(){
 
 
 			var loader = new THREE.JSONLoader();
-
 			loader.load( "model/blade/blade.js", cbCreatePlayer);
-			
 			window.addEventListener( 'resize', onWindowResize, false );
 
 		}
@@ -178,22 +180,17 @@ $(document).ready(function(){
 		}
 
 		function onDocumentMouseMove(event) {
-
 			mouseX = ( event.clientX - windowHalfX );
 			mouseY = ( event.clientY - windowHalfY );
-
 		}
 
 		//
 
-		function animate() {
-
-
+		function animate() 
+		{
 			requestAnimationFrame( animate );
-
 			render();
 			//stats.update();
-
 		}
 
 
@@ -221,11 +218,10 @@ $(document).ready(function(){
 			}
 
 		// ***++++++++++++++++++++++++++++++++++++++++++++++
-			if(player ) {
+			if(player) {
 				player.mesh.updateAnimation(delta);
-				//player.playAnimation();
-				//player.keyboardControls();
 				player.move();
+				control();
 			}
 			if (webglRenderer ) { 
 				webglRenderer.render( scene, camera );
@@ -234,124 +230,257 @@ $(document).ready(function(){
 
 		}
 
-
+		
 		function setAnim(mesh,label,fps)
 		{
 			player.mesh.playAnimation(label,fps);
 		}
-
-		/*$(document).mousemove(function(){
-			if(player){
-				player.follow2DWindowTarget(mouseX,mouseY);
-			}
-		});*/
-
 		/*
+		$(document).mousemove(function(){
+			if(player){player.follow2DWindowTarget(mouseX,mouseY);}
+		});
 		$(document).mousedown(function(){
-			if(player){
-				player.setAnimActiv('run');
-			}
+			if(player){player.setAnimActiv('run');}
 		});
-
 		$(document).mouseup(function(){
-			if(player){
-				player.setAnimActiv('stand');
-			}
+			if(player){player.setAnimActiv('stand');}
 		});
-
 		*/
 
-	
-	function onKeyDown(event)
+	function onkeyDown (event) 
 	{
-			//console.log("down " + event.keyCode);
-			if(event.keyCode == 87){
-				//this.move_fwd = true;
+			if(event.keyCode == player.KEY.UP){
+				player.keyUp = true;
+			}
+			if(event.keyCode == player.KEY.LEFT){
+				player.keyLeft = true;
+			}
+			if(event.keyCode == player.KEY.RIGHT){
+				player.keyRight = true;
+			}
+			if(event.keyCode == player.KEY.DOWN){
+				player.keyDown = true;
+			}
+			if(event.keyCode == player.KEY.SPACE){
+				player.keySpace = true;
+			}
+			if(event.keyCode == player.KEY.W){
+				player.key_W = true;
 				player.setAnimActiv('run');
 				player.mesh.setDirectionForward();
-				player.moveF = true;
 			}
-			if(event.keyCode == 83){
-				//this.move_fwd = true;
+			if(event.keyCode == player.KEY.A){
+				player.key_A = true;
+			}
+			if(event.keyCode == player.KEY.S){
+				player.key_S = true;
 				player.setAnimActiv('run');
 				player.mesh.setDirectionBackward();
-				player.moveB = true;
 			}
-			// test jump animation - i know that there might be bugs ~ po
-			if(event.keyCode == 32){ //space
-				player.setAnimActiv('jump'); 
-				
-				player.moveJ = true;
-				/*
-				* TODO: Save current Animation, play jump - return to current animation if key still pressed.
-				* maybe :D
-				*/
-			}
-
-			if(event.keyCode == 65){
-				player.moveL = true;
-			}
-			if(event.keyCode == 68){
-				player.moveR = true;
-			}
-			if(event.keyCode == 37){
-				player.turnCamL = true;
-			}else
-			if(event.keyCode == 39){
-				player.turnCamR = true;
-			}
-			if(event.keyCode == 38){
-				player.zoomCamOut= true;
-			}else
-			if(event.keyCode == 40){
-				player.zoomCamIn= true;
+			if(event.keyCode == player.KEY.D){
+				player.key_D = true;
 			}
 	}
 
-	function onKeyUp(event)
+	function onkeyUp(event) 
 	{
-			//console.log("Up " + event.keyCode);
-			if(event.keyCode == 87){
-				player.setAnimActiv('stand');
-				player.mesh.setDirectionForward();
-				player.moveF = false;
+		if(event.keyCode == player.KEY.UP){
+			player.keyUp = false;
+		}
+		if(event.keyCode == player.KEY.LEFT){
+			player.keyLeft = false;
+		}
+		if(event.keyCode == player.KEY.RIGHT){
+			player.keyRight = false;
+		}
+		if(event.keyCode == player.KEY.DOWN){
+			player.keyDown = false;
+		}
+		if(event.keyCode == player.KEY.SPACE){
+			player.keySpace = false;
+		}
+		if(event.keyCode == player.KEY.W){
+			player.key_W = false;
+			player.mesh.setDirectionForward();
+			player.setAnimActiv('stand');
+		}	
+		if(event.keyCode == player.KEY.A){
+			player.key_A = false;
+		}
+		if(event.keyCode == player.KEY.S){
+			player.key_S = false;
+			player.mesh.setDirectionForward();
+			player.setAnimActiv('stand');
+		}
+		if(event.keyCode == player.KEY.D){
+			player.key_D = false;
+		}
+	}
+
+	function control() {
+		var speed = 10;
+		var halfSize = 50;
+
+		var nearHalfSize = halfSize-5;
+		if (player.keySpace && onGround) {
+				yspeed = 30;
+				onGround = false;
+		}
+
+		onGround = false;
+
+		// y
+		yspeed -= gravity;
+
+		var down_vector = new THREE.Vector3( 0, -1, 0 );
+		var up_vector = new THREE.Vector3( 0, 1, 0 );
+
+		var bl = new THREE.Vector3( player.mesh.position.x-halfSize, player.mesh.position.y, player.mesh.position.z-halfSize );
+		var br = new THREE.Vector3( player.mesh.position.x+halfSize, player.mesh.position.y, player.mesh.position.z-halfSize );
+		var fl = new THREE.Vector3( player.mesh.position.x-halfSize, player.mesh.position.y, player.mesh.position.z+halfSize );
+		var fr = new THREE.Vector3( player.mesh.position.x+halfSize, player.mesh.position.y, player.mesh.position.z+halfSize );
+
+
+		// down
+		if (yspeed < 0) {
+			// bl
+			var bl_ray = new THREE.Ray( bl, down_vector );
+			var bl_intersects = bl_ray.intersectObject(floor);
+
+			if ( bl_intersects.length > 0 && bl_intersects[0].distance < halfSize ) {
+				player.mesh.position.y = bl_intersects[0].point.y+halfSize;
+				onGround = true;
 			}
-			if(event.keyCode == 83){
-				player.setAnimActiv('stand');
-				player.mesh.setDirectionForward();
-				player.moveB = false;
+			// br
+			var br_ray = new THREE.Ray( br, down_vector );
+			var br_intersects = br_ray.intersectObject(floor );
+			if ( br_intersects.length > 0 && br_intersects[0].distance < halfSize ) {
+				player.mesh.position.y = br_intersects[0].point.y+halfSize;
+				onGround = true;
 			}
-			if(event.keyCode == 65){
-				player.moveL = false;
+			// fl
+			var fl_ray = new THREE.Ray( fl, down_vector );
+			var fl_intersects = fl_ray.intersectObject( floor  );
+			if ( fl_intersects.length > 0 && fl_intersects[0].distance < halfSize ) {
+				player.mesh.position.y = fl_intersects[0].point.y+halfSize;
+				onGround = true;
+			}	
+			// fr
+			var fr_ray = new THREE.Ray( fr, down_vector );
+			var fr_intersects = fr_ray.intersectObject( floor );
+			if ( fr_intersects.length > 0 && fr_intersects[0].distance < halfSize ) {
+				player.mesh.position.y = fr_intersects[0].point.y+halfSize;
+				onGround = true;
+			}	
+		}
+		// up
+		if (yspeed > 0) {
+			// bl
+			var bl_ray = new THREE.Ray( bl, up_vector );
+			var bl_intersects = bl_ray.intersectObject(floor);
+			if ( bl_intersects.length > 0 && bl_intersects[0].distance < halfSize ) {
+				player.mesh.position.y = bl_intersects[0].point.y-halfSize;
+				yspeed = 0;
 			}
-			if(event.keyCode == 68){
-				player.moveR = false;
+			// br
+			var br_ray = new THREE.Ray( br, up_vector );
+			var br_intersects = br_ray.intersectObject(floor);
+			if ( br_intersects.length > 0 && br_intersects[0].distance < halfSize ) {
+				player.mesh.position.y = br_intersects[0].point.y-halfSize;
+				yspeed = 0;
 			}
-			if(event.keyCode == 37){
-				player.turnCamL = false;
-			}else
-			if(event.keyCode == 39){
-				player.turnCamR = false;
+			// fl
+			var fl_ray = new THREE.Ray( fl, up_vector );
+			var fl_intersects = fl_ray.intersectObject(floor);
+			if ( fl_intersects.length > 0 && fl_intersects[0].distance < halfSize ) {
+				player.mesh.position.y = fl_intersects[0].point.y-halfSize;
+				yspeed = 0;
+			}	
+			// fr
+			var fr_ray = new THREE.Ray( fr, up_vector );
+			var fr_intersects = fr_ray.intersectObject(floor);
+			if ( fr_intersects.length > 0 && fr_intersects[0].distance < halfSize ) {
+				player.mesh.position.y = fr_intersects[0].point.y-halfSize;
+				yspeed = 0;
+			}	
+		}
+
+		if (onGround) {
+			yspeed = 0;
+		}
+
+
+		player.mesh.updateMatrix();
+
+		// ray
+		var f_vector = new THREE.Vector3( 0, 0, -1 );
+		var b_vector = new THREE.Vector3( 0, 0, 1 );
+		var l_vector = new THREE.Vector3( -1, 0, 0 );
+		var r_vector = new THREE.Vector3( 1, 0, 0 );
+
+		var left = new THREE.Vector3( player.mesh.position.x-halfSize, player.mesh.position.y-nearHalfSize, player.mesh.position.z );
+		var right = new THREE.Vector3( player.mesh.position.x+halfSize, player.mesh.position.y-nearHalfSize, player.mesh.position.z );
+		var front = new THREE.Vector3( player.mesh.position.x, player.mesh.position.y-nearHalfSize, player.mesh.position.z+halfSize );
+		var back = new THREE.Vector3( player.mesh.position.x, player.mesh.position.y-nearHalfSize, player.mesh.position.z-halfSize );
+
+		// front
+		if (player.key_W) {
+			var left_ray = new THREE.Ray( left, f_vector );
+			var left_intersects = left_ray.intersectObject(floor);
+			if ( left_intersects.length > 0 && left_intersects[0].distance < halfSize ) {
+				player.mesh.position.z = left_intersects[0].point.z+halfSize+1;
 			}
-			if(event.keyCode == 38){
-				player.zoomCamOut = false;
-			}else
-			if(event.keyCode == 40){
-				player.zoomCamIn= false;
+			var right_ray = new THREE.Ray( right, f_vector );
+			var right_intersects = right_ray.intersectObject(floor);
+			if ( right_intersects.length > 0 && right_intersects[0].distance < halfSize ) {
+				player.mesh.position.z = right_intersects[0].point.z+halfSize+1;
 			}
-			
-			//Jumping part
-			if(event.keyCode == 32){
-				player.moveJ = false;
-				// TODO:
-				//here an event should come back from the animation loop
-				//telling that the jump animation is finished
-				//then looking for key.pressed 
+		}
+		// back
+		if (player.key_S) {
+			var left_ray = new THREE.Ray( left, b_vector );
+			var left_intersects = left_ray.intersectObject(floor);
+			if ( left_intersects.length > 0 && left_intersects[0].distance < halfSize ) {
+				player.mesh.position.z = left_intersects[0].point.z-halfSize-1;
 			}
+			var right_ray = new THREE.Ray( right, b_vector );
+			var right_intersects = right_ray.intersectObject(floor);
+			if ( right_intersects.length > 0 && right_intersects[0].distance < halfSize ) {
+				player.mesh.position.z = right_intersects[0].point.z-halfSize-1;
+			}
+		}				
+		// right
+		if (player.key_D) {
+			var back_ray = new THREE.Ray( back, r_vector );
+			var back_intersects = back_ray.intersectObject(floor);
+			if ( back_intersects.length > 0 && back_intersects[0].distance < halfSize ) {
+				player.mesh.position.x = back_intersects[0].point.x-halfSize-1;
+			}
+			var front_ray = new THREE.Ray( front, r_vector );
+			var front_intersects = front_ray.intersectObject(floor);
+			if ( front_intersects.length > 0 && front_intersects[0].distance < halfSize ) {
+				player.mesh.position.x = front_intersects[0].point.x-halfSize-1;
+			}
+		}
+		// left
+		if (player.key_A) {
+			var back_ray = new THREE.Ray( back, l_vector );
+			var back_intersects = back_ray.intersectObject(floor);
+			if ( back_intersects.length > 0 && back_intersects[0].distance < halfSize ) {
+				player.mesh.position.x = back_intersects[0].point.x+halfSize+1;
+			}
+			var front_ray = new THREE.Ray( front, l_vector );
+			var front_intersects = front_ray.intersectObject(floor);
+			if ( front_intersects.length > 0 && front_intersects[0].distance < halfSize ) {
+				player.mesh.position.x = front_intersects[0].point.x+halfSize+1;
+			}
+		}
+		player.mesh.updateMatrix();
 
 	}
 
-	document.addEventListener("keydown", onKeyDown, false);
-	document.addEventListener("keyup", onKeyUp, false);
+
+	document.addEventListener("keydown", onkeyDown, false);
+	document.addEventListener("keyup", onkeyUp, false);
 
 });	 // document ready ende

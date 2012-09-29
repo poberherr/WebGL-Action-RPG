@@ -16,6 +16,7 @@ $extJS=array(
 		'jquery-1.8.2',
 		'jquery-ui/jquery-ui-1.8.23.custom.min',
 		'three.min',
+		//'ThreeExtras',
 		'Detector',
 		'Stats',
 		//'THREEx.KeyboardState',
