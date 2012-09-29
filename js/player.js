@@ -1,7 +1,7 @@
-
 Player = function(_camera,_mesh) {
 
-	/// Variables
+    /// Variables
+
 
 	// not directly assossotiated with the player Object
 	this.sin = Math.sin;
@@ -120,6 +120,8 @@ Player = function(_camera,_mesh) {
 	this.zoomCamIn = false;
 	this.zoomCamOut = false;
 
+	this.moveJ = false;
+
 	this.moveLeft = function()
 	{
 		this.mesh.rotation.y += 0.1;
@@ -150,7 +152,12 @@ Player = function(_camera,_mesh) {
 		this.mesh.position.z += dz;
 		this.setCam(this.camera_r, this.camera_phi , this.camera_theta );
 	}
-
+	
+	this.moveJump = function()
+	{
+		return;
+		//Later do something here
+	}
 
 	this.move = function()
 	{
@@ -177,6 +184,9 @@ Player = function(_camera,_mesh) {
 		}
 		if(this.zoomCamOut){
 			this.zoomOut(1);
+		}
+		if(this.moveJ){
+			this.moveJump();
 		}
 
 	}

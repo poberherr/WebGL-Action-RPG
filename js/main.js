@@ -277,6 +277,17 @@ $(document).ready(function(){
 				player.mesh.setDirectionBackward();
 				player.moveB = true;
 			}
+			// test jump animation - i know that there might be bugs ~ po
+			if(event.keyCode == 32){ //space
+				player.setAnimActiv('jump'); 
+				
+				player.moveJ = true;
+				/*
+				* TODO: Save current Animation, play jump - return to current animation if key still pressed.
+				* maybe :D
+				*/
+			}
+
 			if(event.keyCode == 65){
 				player.moveL = true;
 			}
@@ -323,10 +334,19 @@ $(document).ready(function(){
 				player.turnCamR = false;
 			}
 			if(event.keyCode == 38){
-				player.zoomCamOut= false;
+				player.zoomCamOut = false;
 			}else
 			if(event.keyCode == 40){
 				player.zoomCamIn= false;
+			}
+			
+			//Jumping part
+			if(event.keyCode == 32){
+				player.moveJ = false;
+				// TODO:
+				//here an event should come back from the animation loop
+				//telling that the jump animation is finished
+				//then looking for key.pressed 
 			}
 
 	}
